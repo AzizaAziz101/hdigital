@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Referenzen – hoeft.digital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent:  '#6C5CF7',
+            'accent-d': '#5A4BE0',
+            'accent-l': '#8B7FFF',
+            canvas:  '#EDEEF2',
+            dark:    '#07070C',
+            'dark-2':'#111117',
+          },
+          fontFamily: { sans: ['-apple-system','BlinkMacSystemFont','Segoe UI','system-ui','sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --accent:      #6C5CF7;
+      --accent-d:    #5A4BE0;
+      --accent-l:    #8B7FFF;
+      --canvas:      #EDEEF2;
+      --dark:        #07070C;
+      --dark-2:      #111117;
+      --border:      rgba(0,0,0,0.06);
+      --border-dark: rgba(255,255,255,0.08);
+      --tracking-display: -0.045em;
+      --tracking-heading:  -0.025em;
+      --tracking-label:     0.14em;
+    }
+
+    .fade-in {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* Nav transition */
+    #nav { transition: background 0.35s, border-color 0.35s, box-shadow 0.35s; }
+    #nav .nav-link { font-size: 0.875rem; font-weight: 500; color: #374151; transition: color 0.2s; }
+    #nav .nav-link:hover, #nav .nav-link.active { color: var(--accent); }
+
+    /* Display typography */
+    .display-xl { font-size: clamp(44px, 5.5vw, 80px); letter-spacing: var(--tracking-display); line-height: 0.95; font-weight: 800; }
+    .display-md { font-size: clamp(28px, 3.5vw, 48px); letter-spacing: var(--tracking-heading); line-height: 1.1; font-weight: 800; }
+    .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--accent); }
+
+    /* Gradient text */
+    .g-text-light {
+      background: linear-gradient(125deg, var(--accent) 0%, var(--accent-l) 60%, #a78bfa 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    /* Clip geometries */
+    .clip-left  { clip-path: polygon(0 0, 100% 0, 100% 100%, 28px 100%, 0 calc(100% - 28px)); }
+    .clip-right { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%); }
+
+    /* Tag pill */
+    .tag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; font-size: 0.73rem; font-weight: 500; background: rgba(108,92,247,0.08); color: var(--accent); border: 1px solid rgba(108,92,247,0.18); }
+
+    /* Live-Link Button */
+    .live-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border-radius: 10px;
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--accent);
+      background: rgba(108,92,247,0.07);
+      border: 1px solid rgba(108,92,247,0.2);
+      text-decoration: none; white-space: nowrap;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .live-btn:hover {
+      background: var(--accent); border-color: var(--accent);
+      color: white; transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(108,92,247,0.35);
+    }
+    .live-btn svg { transition: transform 0.2s; }
+    .live-btn:hover svg { transform: translate(1px, -1px); }
+
+    /* Divider line */
+    .divider { border: none; border-top: 1px solid var(--border); }
+
+    /* Checklist */
+    .check-list li { display: flex; align-items: flex-start; gap: 12px; color: #6b7280; line-height: 1.65; }
+    .check-list svg { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+
+    /* Browser mockup shadow */
+    .mockup-shadow { box-shadow: 0 32px 80px rgba(0,0,0,0.22); }
+  </style>
+</head>
+<body class="bg-canvas text-gray-900 antialiased" style="overflow-x:hidden;">
+
+  <!-- NAV -->
+  <nav id="nav" class="fixed top-0 left-0 right-0 z-50 bg-white/96 backdrop-blur-md border-b" style="border-color: var(--border); box-shadow: 0 1px 0 var(--border);">
+    <div class="max-w-6xl mx-auto px-6 h-[68px] flex items-center justify-between">
+      <a href="index.html" class="font-bold text-[17px] tracking-tight text-gray-900">hoeft<span style="color: var(--accent);">.</span>digital</a>
+      <div class="flex items-center gap-7">
+        <a href="index.html" class="nav-link">Startseite</a>
+        <a href="referenzen.html" class="nav-link active" style="color: var(--accent);">Referenzen</a>
+        <a href="kontakt.html" class="nav-link">Kontakt</a>
+        <a href="kontakt.html" class="bg-accent text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-accent-d transition-colors" style="box-shadow: 0 2px 12px rgba(108,92,247,0.3);">Projekt starten</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── HEADER ─────────────────────────────────────── -->
+  <section class="pt-44 pb-16 px-6 max-w-6xl mx-auto">
+    <div class="fade-in">
+      <p class="section-label mb-5">Referenzen</p>
+      <h1 class="display-xl text-gray-900 mb-6">
+        Projekte, die<br />
+        <span class="g-text-light">für sich sprechen</span>.
+      </h1>
+      <p class="text-lg max-w-lg" style="color: #6b7280; line-height: 1.7;">
+        Drei reale Projekte, drei Branchen – eine Gemeinsamkeit: Websites, die tatsächlich funktionieren.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       PROJEKT 01 — METALLBAU (weißes Panel)
+  ═══════════════════════════════════════════════════ -->
+  <section id="metallbau" class="py-20 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="fade-in grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Mockup -->
+        <div class="clip-right bg-dark rounded-3xl p-8 aspect-video flex flex-col justify-between mockup-shadow">
+          <div class="flex items-center gap-2">
+            <div class="w-3 h-3 rounded-full bg-red-400 opacity-80"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-400 opacity-80"></div>
+            <div class="w-3 h-3 rounded-full bg-green-400 opacity-80"></div>
+            <div class="flex-1 rounded-full h-5 ml-3 flex items-center px-3" style="background: rgba(255,255,255,0.08);">
+              <span class="text-xs" style="color: rgba(255,255,255,0.3);">metallbau-muster.de</span>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="h-6 rounded-lg w-2/3" style="background: rgba(255,255,255,0.18);"></div>
+            <div class="h-3 rounded w-full" style="background: rgba(255,255,255,0.08);"></div>
+            <div class="h-3 rounded w-4/5" style="background: rgba(255,255,255,0.08);"></div>
+            <div class="flex gap-3 mt-5">
+              <div class="h-9 rounded-lg w-28" style="background: rgba(255,255,255,0.22);"></div>
+              <div class="h-9 rounded-lg w-24" style="background: rgba(255,255,255,0.08);"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="space-y-7">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="section-label mb-2">Projekt 01</p>
+              <h2 class="display-md text-gray-900">Metallbauunternehmen</h2>
+            </div>
+            <!--
+              ╔══════════════════════════════════════╗
+              ║  LINK HIER EINTRAGEN                 ║
+              ║  href="https://domain.de" ersetzen   ║
+              ╚══════════════════════════════════════╝
+            -->
+            <a href="#" target="_blank" rel="noopener" class="live-btn flex-shrink-0 mt-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              Live ansehen
+            </a>
+          </div>
+
+          <p style="color: #6b7280; line-height: 1.75;">
+            Ein regionaler Metallbaubetrieb brauchte eine digitale Visitenkarte, die genauso solide wirkt wie seine Arbeit. Die alte Website war veraltet, mobil kaum nutzbar und hinterließ keinen professionellen Eindruck.
+          </p>
+
+          <hr class="divider" />
+
+          <ul class="check-list space-y-3">
+            <li>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              Vollständig responsives Design für alle Bildschirmgrößen
+            </li>
+            <li>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              Ladezeit unter 2 Sekunden – direkte Wirkung auf Absprungrate
+            </li>
+            <li>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              SEO-Grundoptimierung für lokale Google-Sichtbarkeit
+            </li>
+          </ul>
+
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill">HTML5</span>
+            <span class="tag-pill">TailwindCSS</span>
+            <span class="tag-pill">JavaScript</span>
+            <span class="tag-pill">Responsive</span>
+            <span class="tag-pill">SEO</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4 pt-6 border-t" style="border-color: var(--border);">
+            <div><p class="text-2xl font-bold text-gray-900" style="letter-spacing: -0.03em;">100%</p><p class="text-xs text-gray-400 mt-1">Mobiloptimiert</p></div>
+            <div><p class="text-2xl font-bold text-gray-900" style="letter-spacing: -0.03em;">&lt;2s</p><p class="text-xs text-gray-400 mt-1">Ladezeit</p></div>
+            <div><p class="text-2xl font-bold text-gray-900" style="letter-spacing: -0.03em;">14d</p><p class="text-xs text-gray-400 mt-1">Lieferzeit</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       PROJEKT 02 — ANWALTSKANZLEI (Canvas)
+  ═══════════════════════════════════════════════════ -->
+  <section id="kanzlei" class="py-20 px-6" style="background: var(--canvas);">
+    <div class="max-w-6xl mx-auto">
+      <div class="fade-in grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Content links -->
+        <div class="space-y-7 order-2 lg:order-1">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="section-label mb-2">Projekt 02</p>
+              <h2 class="display-md text-gray-900">Anwaltskanzlei</h2>
+            </div>
+            <!--
+              ╔══════════════════════════════════════╗
+              ║  LINK HIER EINTRAGEN                 ║
+              ║  href="https://domain.de" ersetzen   ║
+              ╚══════════════════════════════════════╝
+            -->
+            <a href="#" target="_blank" rel="noopener" class="live-btn flex-shrink-0 mt-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              Live ansehen
+            </a>
+          </div>
+
+          <p style="color: #6b7280; line-height: 1.75;">
+            Für eine Anwaltskanzlei zählt der erste Eindruck doppelt. Potenzielle Mandanten entscheiden in Sekunden, ob sie bleiben – die Website musste Kompetenz und Seriosität sofort vermitteln.
+          </p>
+
+          <hr class="divider" />
+
+          <ul class="check-list space-y-3">
+            <li>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              Klare typografische Hierarchie, die Kompetenz ausstrahlt
+            </li>
+            <li>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              Vertrauenssignale: Team, Erfahrung, Rechtsgebiete auf einen Blick
+            </li>
+            <li>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              DSGVO-konformes Kontaktformular, barrierefrei
+            </li>
+          </ul>
+
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill">HTML5</span>
+            <span class="tag-pill">CSS</span>
+            <span class="tag-pill">JavaScript</span>
+            <span class="tag-pill">DSGVO</span>
+            <span class="tag-pill">Barrierefreiheit</span>
+          </div>
+        </div>
+
+        <!-- Mockup rechts -->
+        <div class="clip-left rounded-3xl p-8 aspect-video flex flex-col justify-between mockup-shadow order-1 lg:order-2" style="background: linear-gradient(145deg, #1a1a26 0%, #111117 100%);">
+          <div class="flex items-center gap-2">
+            <div class="w-3 h-3 rounded-full bg-red-400 opacity-70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-400 opacity-70"></div>
+            <div class="w-3 h-3 rounded-full bg-green-400 opacity-70"></div>
+            <div class="flex-1 rounded-full h-5 ml-3 flex items-center px-3" style="background: rgba(255,255,255,0.07);">
+              <span class="text-xs" style="color: rgba(255,255,255,0.25);">kanzlei-muster.de</span>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="h-5 rounded-lg w-1/2" style="background: rgba(255,255,255,0.2);"></div>
+            <div class="h-3 rounded w-full" style="background: rgba(255,255,255,0.07);"></div>
+            <div class="grid grid-cols-3 gap-3 mt-4">
+              <div class="h-14 rounded-xl flex items-center justify-center" style="background: rgba(255,255,255,0.07);">
+                <div class="w-7 h-7 rounded-full" style="background: rgba(255,255,255,0.15);"></div>
+              </div>
+              <div class="h-14 rounded-xl flex items-center justify-center" style="background: rgba(255,255,255,0.07);">
+                <div class="w-7 h-7 rounded-full" style="background: rgba(255,255,255,0.15);"></div>
+              </div>
+              <div class="h-14 rounded-xl flex items-center justify-center" style="background: rgba(255,255,255,0.07);">
+                <div class="w-7 h-7 rounded-full" style="background: rgba(255,255,255,0.15);"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       PROJEKT 03 — BERUFSORIENTIERUNG (weißes Panel)
+  ═══════════════════════════════════════════════════ -->
+  <section id="berufsorientierung" class="py-20 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="fade-in grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Mockup -->
+        <div class="clip-right rounded-3xl p-8 aspect-video flex flex-col justify-between mockup-shadow" style="background: linear-gradient(145deg, #7b72ff 0%, var(--accent) 45%, var(--accent-d) 100%); box-shadow: 0 24px 64px rgba(108,92,247,0.3);">
+          <div class="flex items-center gap-2">
+            <div class="w-3 h-3 rounded-full opacity-60" style="background: rgba(255,255,255,0.6);"></div>
+            <div class="w-3 h-3 rounded-full opacity-60" style="background: rgba(255,255,255,0.6);"></div>
+            <div class="w-3 h-3 rounded-full opacity-60" style="background: rgba(255,255,255,0.6);"></div>
+            <div class="flex-1 rounded-full h-5 ml-3 flex items-center px-3" style="background: rgba(255,255,255,0.12);">
+              <span class="text-xs" style="color: rgba(255,255,255,0.55);">berufscheck-muster.de</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="rounded-xl p-3 space-y-1.5" style="background: rgba(255,255,255,0.12);">
+              <div class="h-3 rounded w-3/4" style="background: rgba(255,255,255,0.3);"></div>
+              <div class="h-2 rounded w-full" style="background: rgba(255,255,255,0.12);"></div>
+              <div class="h-2 rounded w-4/5" style="background: rgba(255,255,255,0.12);"></div>
+            </div>
+            <div class="rounded-xl p-3 space-y-1.5" style="background: rgba(255,255,255,0.12);">
+              <div class="h-3 rounded w-3/4" style="background: rgba(255,255,255,0.3);"></div>
+              <div class="h-2 rounded w-full" style="background: rgba(255,255,255,0.12);"></div>
+              <div class="h-2 rounded w-4/5" style="background: rgba(255,255,255,0.12);"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="space-y-7">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="section-label mb-2">Projekt 03</p>
+              <h2 class="display-md text-gray-900">Berufsorientierungswebsite</h2>
+            </div>
+            <!--
+              ╔══════════════════════════════════════╗
+              ║  LINK HIER EINTRAGEN                 ║
+              ║  href="https://domain.de" ersetzen   ║
+              ╚══════════════════════════════════════╝
+            -->
+            <a href="#" target="_blank" rel="noopener" class="live-btn flex-shrink-0 mt-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              Live ansehen
+            </a>
+          </div>
+
+          <p style="color: #6b7280; line-height: 1.75;">
+            Jugendliche und Berufseinsteiger brauchen Orientierung – keine Überforderung. Die Plattform musste komplexe Informationen klar und zugänglich präsentieren.
+          </p>
+
+          <hr class="divider" />
+
+          <ul class="check-list space-y-3">
+            <li>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              Intuitive Informationsarchitektur für schnelle Orientierung
+            </li>
+            <li>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              Mobile-First-Ansatz für die Hauptzielgruppe Jugendliche
+            </li>
+            <li>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              Klar strukturierte Berufsprofile, zugänglich für alle
+            </li>
+          </ul>
+
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill">HTML5</span>
+            <span class="tag-pill">TailwindCSS</span>
+            <span class="tag-pill">UX Design</span>
+            <span class="tag-pill">Responsive</span>
+            <span class="tag-pill">Mobile-First</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-24 px-6 text-center" style="background: #0D0D16;">
+    <div class="max-w-2xl mx-auto fade-in">
+      <p class="section-label mb-6" style="color: var(--accent-l);">Jetzt starten</p>
+      <h2 class="display-md text-white mb-4">Ihr Projekt könnte<br />das nächste sein.</h2>
+      <p class="text-lg mb-10" style="color: rgba(255,255,255,0.42); line-height: 1.7;">Schreiben Sie mir – ich melde mich innerhalb von 24 Stunden.</p>
+      <a href="kontakt.html"
+         class="inline-block bg-accent text-white font-semibold px-8 py-4 rounded-xl text-base transition-all"
+         style="box-shadow: 0 4px 20px rgba(108,92,247,0.4);"
+         onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 8px 28px rgba(108,92,247,0.5)'"
+         onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(108,92,247,0.4)'">
+        Jetzt anfragen →
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background: #050508;" class="py-12 px-6">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <a href="index.html" class="font-bold text-lg text-white tracking-tight">hoeft<span style="color: var(--accent-l);">.</span>digital</a>
+      <div class="flex flex-wrap gap-6 text-sm" style="color: rgba(255,255,255,0.3);">
+        <a href="index.html" class="hover:text-white transition-colors">Startseite</a>
+        <a href="referenzen.html" class="hover:text-white transition-colors">Referenzen</a>
+        <a href="kontakt.html" class="hover:text-white transition-colors">Kontakt</a>
+        <a href="impressum.html" class="hover:text-white transition-colors">Impressum</a>
+        <a href="datenschutz.html" class="hover:text-white transition-colors">Datenschutz</a>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto mt-8 pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style="border-top: 1px solid rgba(255,255,255,0.06);">
+      <p class="text-sm" style="color: rgba(255,255,255,0.18);">© 2026 hoeft.digital – Alle Rechte vorbehalten</p>
+      <a href="mailto:hallo@hoeft.digital" class="text-sm hover:text-white transition-colors" style="color: rgba(255,255,255,0.18);">hallo@hoeft.digital</a>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.06, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>hoeft.digital – Webdesign, das wirkt</title>
+  <meta name="description" content="Professionelles Webdesign für Unternehmen, die online überzeugen wollen." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent:  '#6C5CF7',
+            'accent-d': '#5A4BE0',
+            'accent-l': '#8B7FFF',
+            canvas:  '#EDEEF2',
+            dark:    '#07070C',
+            'dark-2':'#111117',
+          },
+          fontFamily: {
+            sans: ['-apple-system','BlinkMacSystemFont','Segoe UI','system-ui','sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    /* ── Design Tokens ──────────────────────────────── */
+    :root {
+      --accent:       #6C5CF7;
+      --accent-d:     #5A4BE0;
+      --accent-l:     #8B7FFF;
+      --canvas:       #EDEEF2;
+      --dark:         #07070C;
+      --dark-2:       #111117;
+      --border-light: rgba(0,0,0,0.06);
+      --border-dark:  rgba(255,255,255,0.08);
+
+      /* Typography — das größte Qualitätsmerkmal */
+      --tracking-display: -0.045em;
+      --tracking-heading:  -0.025em;
+      --tracking-label:     0.14em;
+    }
+
+    /* ── Scroll-Fade ────────────────────────────────── */
+    .fade-in {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* ── Navigation ────────────────────────────────── */
+    #nav { transition: background 0.35s, border-color 0.35s, box-shadow 0.35s; }
+    #nav .nav-link { font-size: 0.875rem; font-weight: 500; color: #374151; transition: color 0.2s; }
+    #nav .nav-link:hover, #nav .nav-link.active { color: var(--accent); }
+
+    /* ── Gradient Display Text ──────────────────────── */
+    .g-text {
+      background: linear-gradient(125deg, #a78bfa 0%, #c4b5fd 55%, #ddd6fe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .g-text-light {
+      background: linear-gradient(125deg, var(--accent) 0%, var(--accent-l) 60%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Dark Hero ──────────────────────────────────── */
+    .hero-dark {
+      background-color: var(--dark);
+      /* Subtiles Grid — wie mux.com */
+      background-image:
+        linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+      background-size: 64px 64px;
+      position: relative; overflow: hidden;
+    }
+    /* Gradient Orbs im Hero */
+    .hero-dark::before {
+      content: ''; position: absolute; pointer-events: none;
+      top: -20%; right: -10%;
+      width: 70%; height: 100%;
+      background: radial-gradient(ellipse at 70% 30%, rgba(108,92,247,0.18) 0%, transparent 60%);
+    }
+    .hero-dark::after {
+      content: ''; position: absolute; pointer-events: none;
+      bottom: -20%; left: -5%;
+      width: 50%; height: 80%;
+      background: radial-gradient(ellipse at 30% 70%, rgba(108,92,247,0.08) 0%, transparent 60%);
+    }
+
+    /* ── Display Typography ─────────────────────────── */
+    .display-xl {
+      font-size: clamp(48px, 6.8vw, 96px);
+      letter-spacing: var(--tracking-display);
+      line-height: 0.95;
+      font-weight: 800;
+    }
+    .display-md {
+      font-size: clamp(32px, 4vw, 56px);
+      letter-spacing: var(--tracking-heading);
+      line-height: 1.1;
+      font-weight: 800;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: var(--tracking-label);
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* ── Card System ────────────────────────────────── */
+    .card-white {
+      background: #fff;
+      border: 1px solid var(--border-light);
+      box-shadow:
+        0 1px 2px rgba(0,0,0,0.04),
+        0 4px 16px rgba(0,0,0,0.04),
+        inset 0 1px 0 rgba(255,255,255,0.9);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .card-white:hover {
+      box-shadow:
+        0 1px 2px rgba(0,0,0,0.04),
+        0 4px 16px rgba(0,0,0,0.04),
+        inset 0 1px 0 rgba(255,255,255,0.9);
+    }
+
+    /* Dark card — statt flat-accent-Karte */
+    .card-dark {
+      background: var(--dark-2);
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow:
+        0 4px 16px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .card-dark:hover {
+      box-shadow:
+        0 4px 16px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    /* Clip-path cards benutzen drop-shadow (folgt der Polygon-Form) */
+    .clip-wrap {
+      transition: filter 0.3s ease;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.07));
+    }
+    .clip-wrap:hover {
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.07));
+    }
+
+    /* ── Geometrische Clips ─────────────────────────── */
+    .clip-1 { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%); }
+    .clip-2 { clip-path: polygon(28px 0, 100% 0, 100% 100%, 0 100%, 0 28px); }
+    .clip-3 { clip-path: polygon(0 0, 100% 0, 100% 100%, 28px 100%, 0 calc(100% - 28px)); }
+
+    /* ── Step Cards mit Ghost-Numbers ───────────────── */
+    .step-card {
+      background: #fff;
+      border: 1px solid var(--border-light);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
+      position: relative; overflow: hidden;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .step-card::before {
+      content: attr(data-step);
+      position: absolute; bottom: -16px; right: 12px;
+      font-size: 120px; font-weight: 900; line-height: 1;
+      color: rgba(0,0,0,0.03);
+      user-select: none; pointer-events: none;
+      letter-spacing: -0.05em;
+    }
+    /* Statische Top-Bar (kein hover) */
+    .step-card::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: #0D0D16;
+    }
+
+    /* ── Sonstiges ──────────────────────────────────── */
+    .tag-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: 999px;
+      font-size: 0.73rem; font-weight: 500;
+      background: rgba(108,92,247,0.08); color: var(--accent);
+      border: 1px solid rgba(108,92,247,0.18);
+    }
+    .inner-badge {
+      background: var(--canvas); color: #6b7280;
+      font-size: 0.73rem; font-weight: 500;
+      padding: 3px 10px; border-radius: 999px;
+      border: 1px solid var(--border-light);
+    }
+    ::selection { background: rgba(108,92,247,0.15); }
+  </style>
+</head>
+<body class="bg-canvas text-gray-900 antialiased" style="overflow-x:hidden;">
+
+  <!-- ═══════════════════════════════════════════════
+       NAV — transparent über Dark, frosted nach Scroll
+  ═══════════════════════════════════════════════ -->
+  <nav id="nav" class="fixed top-0 left-0 right-0 z-50 bg-white/96 backdrop-blur-md border-b" style="border-color: var(--border-light); box-shadow: 0 1px 0 var(--border-light);">
+    <div class="max-w-6xl mx-auto px-6 h-[68px] flex items-center justify-between">
+      <a href="index.html" class="font-bold text-[17px] tracking-tight text-gray-900">hoeft<span style="color: var(--accent);">.</span>digital</a>
+      <div class="flex items-center gap-7">
+        <a href="index.html" class="nav-link active" style="color: var(--accent);">Startseite</a>
+        <a href="referenzen.html" class="nav-link">Referenzen</a>
+        <a href="kontakt.html" class="nav-link">Kontakt</a>
+        <a href="kontakt.html" class="bg-accent text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-accent-d transition-colors" style="box-shadow: 0 2px 12px rgba(108,92,247,0.3);">Projekt starten</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       HERO — Dark, dramatically typed, mux-inspired
+  ═══════════════════════════════════════════════ -->
+  <section id="hero-section" class="hero-dark pt-44 pb-36 px-6">
+    <div class="max-w-6xl mx-auto relative z-10">
+
+      <div class="fade-in">
+        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full mb-10"
+             style="background: rgba(108,92,247,0.12); border: 1px solid rgba(108,92,247,0.25);">
+          <span class="w-1.5 h-1.5 rounded-full animate-pulse" style="background: var(--accent-l);"></span>
+          <span class="text-sm font-medium" style="color: #a78bfa;">Verfügbar für neue Projekte</span>
+        </div>
+      </div>
+
+      <div class="fade-in" style="transition-delay: 0.08s">
+        <h1 class="display-xl text-white max-w-4xl mb-8">
+          Websites, die<br />
+          <span class="g-text">Vertrauen</span> schaffen<br />
+          und <span class="g-text">verkaufen</span>.
+        </h1>
+      </div>
+
+      <div class="fade-in" style="transition-delay: 0.16s">
+        <p class="text-lg max-w-lg mb-11 leading-relaxed" style="color: rgba(255,255,255,0.52); line-height: 1.7;">
+          Ich baue professionelle Websites für Unternehmen, die online einen starken ersten Eindruck hinterlassen wollen – schnell, sauber, ohne Kompromisse.
+        </p>
+      </div>
+
+      <div class="fade-in flex flex-wrap gap-3" style="transition-delay: 0.22s">
+        <a href="kontakt.html"
+           class="inline-flex items-center gap-2 bg-accent text-white font-semibold px-7 py-3.5 rounded-xl text-base transition-all"
+           style="box-shadow: 0 4px 20px rgba(108,92,247,0.45);"
+           onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 8px 28px rgba(108,92,247,0.5)'"
+           onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(108,92,247,0.45)'">
+          Kostenlos anfragen →
+        </a>
+        <a href="referenzen.html"
+           class="inline-flex items-center gap-2 text-white font-semibold px-7 py-3.5 rounded-xl text-base transition-all"
+           style="border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.06);"
+           onmouseover="this.style.background='rgba(255,255,255,0.1)';this.style.transform='translateY(-1px)'"
+           onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.transform=''">
+          Referenzen ansehen
+        </a>
+      </div>
+
+      <!-- Trust bar -->
+      <div class="fade-in mt-16 flex flex-wrap gap-8" style="transition-delay: 0.3s">
+        <div class="flex items-center gap-2.5 text-sm" style="color: rgba(255,255,255,0.35);">
+          <svg class="w-4 h-4 flex-shrink-0" style="color: var(--accent-l);" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          Bezahlung erst bei Auslieferung
+        </div>
+        <div class="flex items-center gap-2.5 text-sm" style="color: rgba(255,255,255,0.35);">
+          <svg class="w-4 h-4 flex-shrink-0" style="color: var(--accent-l);" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          Lieferung in 7–14 Tagen
+        </div>
+        <div class="flex items-center gap-2.5 text-sm" style="color: rgba(255,255,255,0.35);">
+          <svg class="w-4 h-4 flex-shrink-0" style="color: var(--accent-l);" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          Mobiloptimiert & schnell
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       BENTO REFERENZEN — White Panel
+  ═══════════════════════════════════════════════ -->
+  <section class="py-24 px-6 bg-canvas">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="fade-in mb-14">
+        <p class="section-label mb-3">Referenzen</p>
+        <h2 class="display-md text-gray-900">Projekte, die ich<br />umgesetzt habe</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-5">
+
+        <!-- Card 1: Metallbau (7 cols) -->
+        <div class="fade-in md:col-span-7 clip-wrap" style="transition-delay: 0.05s">
+          <div class="clip-1 p-8 h-full group" style="background:#F7F8FC; border:1px solid rgba(0,0,0,0.09); box-shadow:0 1px 3px rgba(0,0,0,0.05),0 6px 20px rgba(0,0,0,0.06);">
+            <div class="flex items-start justify-between mb-6">
+              <div class="w-12 h-12 rounded-2xl bg-dark flex items-center justify-center" style="box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+              </div>
+              <span class="inner-badge">Metallbau</span>
+            </div>
+
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-accent transition-colors" style="letter-spacing: var(--tracking-heading);">Metallbauunternehmen</h3>
+            <p class="text-gray-500 leading-relaxed mb-6" style="line-height: 1.7;">
+              Firmenwebsite für einen regionalen Metallbaubetrieb. Auf allen Geräten, klar strukturiert, schnell geladen – so seriös wie die Arbeit des Unternehmens selbst.
+            </p>
+
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="tag-pill">HTML</span>
+              <span class="tag-pill">TailwindCSS</span>
+              <span class="tag-pill">JavaScript</span>
+              <span class="tag-pill">Responsive</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 pt-5 border-t" style="border-color: var(--border-light);">
+              <div><p class="text-2xl font-bold text-gray-900" style="letter-spacing: -0.02em;">100%</p><p class="text-xs text-gray-400 mt-0.5">Mobiloptimiert</p></div>
+              <div><p class="text-2xl font-bold text-gray-900" style="letter-spacing: -0.02em;">&lt;2s</p><p class="text-xs text-gray-400 mt-0.5">Ladezeit</p></div>
+              <div><p class="text-2xl font-bold text-gray-900" style="letter-spacing: -0.02em;">SEO</p><p class="text-xs text-gray-400 mt-0.5">Optimiert</p></div>
+            </div>
+
+            <div class="mt-5 pt-4 border-t flex justify-end" style="border-color: rgba(0,0,0,0.04);">
+              <a href="referenzen.html#metallbau" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-400 hover:text-accent transition-colors group-hover:text-accent">
+                Vollständiges Projekt
+                <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Anwaltskanzlei (dark — sophisticated) -->
+        <div class="fade-in md:col-span-5 clip-2 card-dark p-8 group" style="transition-delay: 0.1s">
+          <div class="flex items-start justify-between mb-6">
+            <div class="w-12 h-12 rounded-2xl flex items-center justify-center" style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);">
+              <svg class="w-6 h-6" style="color: var(--accent-l);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+            </div>
+            <span style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.45);font-size:0.73rem;font-weight:500;padding:3px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.08);">Recht & Beratung</span>
+          </div>
+
+          <h3 class="text-2xl font-bold text-white mb-3" style="letter-spacing: var(--tracking-heading);">Anwaltskanzlei</h3>
+          <p class="leading-relaxed mb-6" style="color: rgba(255,255,255,0.72); line-height: 1.7;">
+            Website, die Vertrauen erzeugt – noch bevor ein Wort gelesen wird. Saubere Typografie, klare Hierarchie, professionelle Außenwirkung.
+          </p>
+
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:0.73rem;font-weight:500;background:rgba(108,92,247,0.15);color:#a78bfa;border:1px solid rgba(108,92,247,0.25);">HTML</span>
+            <span style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:0.73rem;font-weight:500;background:rgba(108,92,247,0.15);color:#a78bfa;border:1px solid rgba(108,92,247,0.25);">CSS</span>
+            <span style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:0.73rem;font-weight:500;background:rgba(108,92,247,0.15);color:#a78bfa;border:1px solid rgba(108,92,247,0.25);">DSGVO</span>
+          </div>
+
+          <div class="pt-5 flex items-center justify-between" style="border-top: 1px solid rgba(255,255,255,0.07);">
+            <p class="text-xs" style="color: rgba(255,255,255,0.3);">Erstkontakt-Konvertierung</p>
+            <a href="referenzen.html#kanzlei" class="inline-flex items-center gap-1 text-xs font-semibold transition-colors" style="color: rgba(255,255,255,0.35);" onmouseover="this.style.color='#a78bfa'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">
+              Details
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 3: Berufsorientierung (full width, accent purple) -->
+        <div class="fade-in md:col-span-12 clip-wrap" style="transition-delay: 0.15s">
+          <div class="clip-3 p-8 group" style="background: var(--accent); border:1px solid rgba(0,0,0,0.18); box-shadow:0 4px 20px rgba(108,92,247,0.35),0 1px 3px rgba(0,0,0,0.1);">
+            <div class="flex flex-col md:flex-row md:items-center gap-8">
+              <div class="flex-shrink-0">
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center" style="background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.25);">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                </div>
+              </div>
+              <div class="flex-1">
+                <span class="mb-2 inline-block" style="background:rgba(255,255,255,0.18);color:rgba(255,255,255,0.9);font-size:0.73rem;font-weight:500;padding:3px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);">Bildung & Plattform</span>
+                <h3 class="text-2xl font-bold text-white mb-2" style="letter-spacing: var(--tracking-heading);">Berufsorientierungswebsite</h3>
+                <p class="max-w-3xl" style="color: rgba(255,255,255,0.78); line-height: 1.7;">
+                  Übersichtliche Plattform für Jugendliche und Berufseinsteiger. Strukturiert, intuitiv, ohne Ablenkung – damit Besucher sofort finden, was sie suchen.
+                </p>
+              </div>
+              <div class="flex-shrink-0 flex flex-col items-end gap-4">
+                <div class="flex flex-wrap gap-2 md:justify-end">
+                  <span style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:0.73rem;font-weight:500;background:rgba(255,255,255,0.18);color:white;border:1px solid rgba(255,255,255,0.28);">HTML</span>
+                  <span style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:0.73rem;font-weight:500;background:rgba(255,255,255,0.18);color:white;border:1px solid rgba(255,255,255,0.28);">TailwindCSS</span>
+                  <span style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:0.73rem;font-weight:500;background:rgba(255,255,255,0.18);color:white;border:1px solid rgba(255,255,255,0.28);">UX Design</span>
+                </div>
+                <a href="referenzen.html#berufsorientierung" class="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors" style="color:rgba(255,255,255,0.6);" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">
+                  Vollständiges Projekt
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-in text-center mt-10">
+        <a href="referenzen.html" class="inline-flex items-center gap-2 font-semibold text-sm hover:gap-3 transition-all" style="color: var(--accent);">
+          Alle Projekte im Detail ansehen
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       PROZESS — Canvas, Ghost Numbers, Gradient Bar
+  ═══════════════════════════════════════════════ -->
+  <section class="py-24 px-6" style="background: var(--canvas);">
+    <div class="max-w-6xl mx-auto">
+      <div class="fade-in text-center mb-16">
+        <p class="section-label mb-3">So einfach funktioniert's</p>
+        <h2 class="display-md text-gray-900">Vom Briefing zur<br />fertigen Website</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="fade-in step-card rounded-2xl p-7" data-step="01" style="transition-delay: 0.06s">
+          <div class="w-10 h-10 rounded-xl text-base font-bold flex items-center justify-center mb-6" style="background: rgba(108,92,247,0.1); color: var(--accent);">1</div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2.5" style="letter-spacing: var(--tracking-heading);">Kostenloses Gespräch</h3>
+          <p class="text-gray-500" style="line-height: 1.7;">Wir sprechen über Ihr Unternehmen, Ihre Zielgruppe und was die Website leisten soll. Kein Verkaufsgespräch – nur ein offenes Briefing.</p>
+        </div>
+        <div class="fade-in step-card rounded-2xl p-7" data-step="02" style="transition-delay: 0.12s">
+          <div class="w-10 h-10 rounded-xl text-base font-bold flex items-center justify-center mb-6" style="background: rgba(108,92,247,0.1); color: var(--accent);">2</div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2.5" style="letter-spacing: var(--tracking-heading);">Design & Entwicklung</h3>
+          <p class="text-gray-500" style="line-height: 1.7;">Ich entwerfe und entwickle Ihre Website in 7–14 Tagen. Regelmäßige Updates, Feedback jederzeit möglich.</p>
+        </div>
+        <div class="fade-in step-card rounded-2xl p-7" data-step="03" style="transition-delay: 0.18s">
+          <div class="w-10 h-10 rounded-xl text-base font-bold flex items-center justify-center mb-6" style="background: rgba(108,92,247,0.1); color: var(--accent);">3</div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2.5" style="letter-spacing: var(--tracking-heading);">Auslieferung & Zahlung</h3>
+          <p class="text-gray-500" style="line-height: 1.7;">Erst wenn Sie überzeugt sind, wird gezahlt. Keine Vorauszahlung, kein Risiko.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       CTA
+  ═══════════════════════════════════════════════ -->
+  <section class="py-24 px-6" style="background: #0D0D16;">
+    <div class="max-w-5xl mx-auto text-center">
+      <div class="fade-in">
+        <p class="section-label mb-6" style="color: var(--accent-l);">Jetzt starten</p>
+        <h2 class="display-md text-white mb-6">
+          Bereit für eine Website,<br />die wirklich für Sie arbeitet?
+        </h2>
+        <p class="text-lg mb-10 max-w-xl mx-auto" style="color: rgba(255,255,255,0.45); line-height: 1.7;">
+          Schreiben Sie mir. Das erste Gespräch ist kostenlos und unverbindlich. Bezahlung erst, wenn Sie überzeugt sind.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="kontakt.html"
+             class="bg-accent text-white font-semibold px-8 py-4 rounded-xl text-base transition-all"
+             style="box-shadow: 0 4px 20px rgba(108,92,247,0.4);"
+             onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 8px 28px rgba(108,92,247,0.5)'"
+             onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(108,92,247,0.4)'">
+            Jetzt Kontakt aufnehmen →
+          </a>
+          <a href="mailto:hallo@hoeft.digital"
+             class="text-white font-semibold px-8 py-4 rounded-xl text-base transition-all"
+             style="border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05);"
+             onmouseover="this.style.background='rgba(255,255,255,0.09)';this.style.transform='translateY(-1px)'"
+             onmouseout="this.style.background='rgba(255,255,255,0.05)';this.style.transform=''">
+            hallo@hoeft.digital
+          </a>
+        </div>
+        <p class="text-sm mt-8" style="color: rgba(255,255,255,0.22);">
+          Keine Vorauszahlung &nbsp;·&nbsp; Lieferung in 7–14 Tagen &nbsp;·&nbsp; 100% Mobiloptimiert
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background: #050508;" class="py-12 px-6">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+        <a href="index.html" class="font-bold text-lg text-white tracking-tight">
+          hoeft<span style="color: var(--accent-l);">.</span>digital
+        </a>
+        <p class="text-sm mt-1" style="color: rgba(255,255,255,0.25);">Professionelles Webdesign aus Deutschland</p>
+      </div>
+      <div class="flex flex-wrap gap-6 text-sm" style="color: rgba(255,255,255,0.3);">
+        <a href="index.html" class="hover:text-white transition-colors">Startseite</a>
+        <a href="referenzen.html" class="hover:text-white transition-colors">Referenzen</a>
+        <a href="kontakt.html" class="hover:text-white transition-colors">Kontakt</a>
+        <a href="impressum.html" class="hover:text-white transition-colors">Impressum</a>
+        <a href="datenschutz.html" class="hover:text-white transition-colors">Datenschutz</a>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto mt-8 pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style="border-top: 1px solid rgba(255,255,255,0.06);">
+      <p class="text-sm" style="color: rgba(255,255,255,0.18);">© 2026 hoeft.digital – Alle Rechte vorbehalten</p>
+      <a href="mailto:hallo@hoeft.digital" class="text-sm hover:text-white transition-colors" style="color: rgba(255,255,255,0.18);">hallo@hoeft.digital</a>
+    </div>
+  </footer>
+
+  <script>
+    // ── Scroll Fade ──────────────────────────────────
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.06, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  </script>
+</body>
+</html>
