@@ -202,7 +202,12 @@
 
     @media (max-width: 767px) {
       .fade-in { transform: translateY(14px); }
-      .step-card { transition-delay: 0s !important; }
+      .step-card.fade-in,
+      .step-card.fade-in.visible {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
     }
   </style>
 </head>
