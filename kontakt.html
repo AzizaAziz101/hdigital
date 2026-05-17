@@ -81,12 +81,22 @@
   <nav id="nav" class="fixed top-0 left-0 right-0 z-50 bg-white/96 backdrop-blur-md border-b" style="border-color: rgba(0,0,0,0.06); box-shadow: 0 1px 0 rgba(0,0,0,0.05);">
     <div class="max-w-6xl mx-auto px-6 h-[68px] flex items-center justify-between">
       <a href="index.html" class="font-bold text-[17px] tracking-tight text-gray-900">hoeft<span style="color: var(--accent);">.</span>digital</a>
-      <div class="flex items-center gap-7">
+      <div class="hidden md:flex items-center gap-7">
         <a href="index.html" class="nav-link">Startseite</a>
         <a href="referenzen.html" class="nav-link">Referenzen</a>
         <a href="kontakt.html" class="nav-link active">Kontakt</a>
         <a href="kontakt.html" class="bg-accent text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-accent-d transition-colors" style="box-shadow: 0 2px 12px rgba(108,92,247,0.3);">Projekt starten</a>
       </div>
+      <button id="menu-btn" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors" aria-label="Menü">
+        <svg id="icon-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg id="icon-close" class="hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden border-t bg-white px-6 py-4 space-y-1" style="border-color: rgba(0,0,0,0.06);">
+      <a href="index.html" class="nav-link block py-2.5 border-b" style="border-color: rgba(0,0,0,0.06);">Startseite</a>
+      <a href="referenzen.html" class="nav-link block py-2.5 border-b" style="border-color: rgba(0,0,0,0.06);">Referenzen</a>
+      <a href="kontakt.html" class="nav-link block py-2.5 border-b" style="color: var(--accent); border-color: rgba(0,0,0,0.06);">Kontakt</a>
+      <div class="pt-3"><a href="kontakt.html" class="block text-center bg-accent text-white text-sm font-semibold px-4 py-2.5 rounded-lg hover:bg-accent-d transition-colors">Projekt starten</a></div>
     </div>
   </nav>
 
@@ -240,6 +250,16 @@
       document.getElementById('contactForm').classList.add('hidden');
       document.getElementById('successMsg').classList.remove('hidden');
     }
+
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('icon-open');
+    const iconClose = document.getElementById('icon-close');
+    menuBtn.addEventListener('click', () => {
+      const nowHidden = mobileMenu.classList.toggle('hidden');
+      iconOpen.classList.toggle('hidden', !nowHidden);
+      iconClose.classList.toggle('hidden', nowHidden);
+    });
   </script>
 </body>
 </html>
