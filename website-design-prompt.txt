@@ -1,0 +1,509 @@
+WEBSITE DESIGN SYSTEM PROMPT
+hoeft.digital — extrahiert aus index.html
+============================================================
+Benutze diesen Text als Vorlage-Prompt, um neue Websites im
+gleichen Look & Feel zu erstellen. Ersetze nur Inhalt, Farben
+und Seitennamen — alle Strukturen, Klassen und Logik bleiben.
+============================================================
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. TECH STACK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+- Reines HTML5 + TailwindCSS CDN + Vanilla JS
+- Kein Build-Tool, kein Framework, kein npm
+- TailwindCSS über CDN: <script src="https://cdn.tailwindcss.com"></script>
+- Tailwind-Config inline im <script>-Tag direkt nach dem CDN-Script
+- Systemschrift-Stack: -apple-system, BlinkMacSystemFont, Segoe UI, system-ui, sans-serif
+- overflow-x:hidden auf <body> gegen horizontales Scrollen
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. DESIGN TOKENS — Farben
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Tailwind config UND CSS :root müssen immer synchron sein:
+
+  --accent:        #6C5CF7   (Lila — Primärfarbe, CTAs, Links)
+  --accent-d:      #5A4BE0   (dunkleres Lila — Hover auf Buttons)
+  --accent-l:      #8B7FFF   (helleres Lila — Highlights, Orbs)
+  --canvas:        #EDEEF2   (Seiten-Hintergrund, leichtes UI-Grau)
+  --dark:          #07070C   (Hero-Hintergrund, fast Schwarz)
+  --dark-2:        #111117   (dunkle Karten, etwas heller als --dark)
+  --border-light:  rgba(0,0,0,0.06)
+  --border-dark:   rgba(255,255,255,0.08)
+
+Sektions-Hintergründe:
+  Hero:     #07070C (var(--dark))
+  Canvas:   #EDEEF2 (var(--canvas)) — Standard für helle Sektionen
+  Weiß:     #ffffff — für Karten und content-schwere Sektionen
+  CTA:      #0D0D16 — leicht blau-dunkel, anders als Hero
+  Footer:   #050508 — tiefstes Schwarz
+
+Hover-Prinzip für Karten: NUR Schriftfarbe ändert sich (group-hover:text-accent),
+KEIN translateY, KEIN Box-Shadow-Wechsel auf Karten.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. DESIGN TOKENS — Typografie
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Letter-Spacing (immer als CSS-Variable verwenden):
+  --tracking-display: -0.045em   (Headline H1, sehr eng)
+  --tracking-heading:  -0.025em  (H2, H3)
+  --tracking-label:    0.14em    (Section Labels, UPPERCASE, weitläufig)
+
+Klassen:
+  .display-xl  → clamp(48px, 6.8vw, 96px) | weight 800 | line-height 0.95 | tracking -0.045em
+  .display-md  → clamp(32px, 4vw, 56px)   | weight 800 | line-height 1.1  | tracking -0.025em
+  .section-label → 0.7rem | weight 700 | uppercase | tracking 0.14em | color: var(--accent)
+
+Fließtext:
+  Groß:   text-lg (1.125rem), line-height 1.7
+  Normal: text-base, color #6b7280 (text-gray-500), line-height 1.7
+  Klein:  text-xs, text-sm für Badges/Tags
+
+Gradient-Text (für Akzent-Wörter in Headlines):
+  .g-text       → Lila-Violett, für dunkle Hintergründe
+                  background: linear-gradient(125deg, #a78bfa 0%, #c4b5fd 55%, #ddd6fe 100%)
+  .g-text-light → Lila zu Hellviolett, für helle Hintergründe
+                  background: linear-gradient(125deg, #6C5CF7 0%, #8B7FFF 60%, #a78bfa 100%)
+  Beide: -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+
+Text-Selektion: ::selection { background: rgba(108,92,247,0.15); }
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. SCROLL-ANIMATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CSS:
+  .fade-in {
+    opacity: 0; transform: translateY(32px);
+    transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+                transform 0.8s cubic-bezier(0.16,1,0.3,1);
+  }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 767px) {
+    .fade-in { transform: translateY(14px); }
+  }
+
+JavaScript (am Ende von <body>):
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.06, rootMargin: '0px 0px -40px 0px' }
+  );
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+Staffelung: per inline style="transition-delay: 0.08s" auf zusammengehörigen Elementen.
+CTA-Sektion: KEIN fade-in — Inhalt ist sofort sichtbar.
+Step-Cards auf Mobile: Animation komplett deaktiviert (opacity:1, transform:none, transition:none mit !important).
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. NAVIGATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Struktur:
+  - fixed top-0, z-50, bg-white/96, backdrop-blur-md
+  - Höhe: h-[68px] (innerer Container)
+  - max-w-6xl mx-auto px-6
+  - Logo links: font-bold text-[17px] tracking-tight, Punkt in --accent
+  - Desktop-Links: hidden md:flex items-center gap-7 → ab 768px sichtbar
+  - Aktiver Link: class="nav-link active" + inline style="color: var(--accent);"
+  - CTA-Button: bg-accent text-white px-4 py-2 rounded-lg, box-shadow 0 2px 12px rgba(108,92,247,0.3)
+
+Mobile Hamburger (immer einbauen):
+  - button#menu-btn class="md:hidden p-2 rounded-lg ..."
+  - Zwei SVG-Icons: #icon-open (☰) und #icon-close (✕), jeweils mit class="hidden" togglebar
+  - div#mobile-menu class="hidden md:hidden border-t bg-white px-6 py-4 space-y-1"
+  - Links mit py-2.5 border-b, aktiver Link in Accent-Farbe
+  - CTA-Button vollbreite am Ende des Dropdowns
+
+CSS:
+  #nav { transition: background 0.35s, border-color 0.35s, box-shadow 0.35s; }
+  #nav .nav-link { font-size: 0.875rem; font-weight: 500; color: #374151; transition: color 0.2s; }
+  #nav .nav-link:hover, #nav .nav-link.active { color: var(--accent); }
+
+JavaScript:
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('icon-open');
+  const iconClose = document.getElementById('icon-close');
+  menuBtn.addEventListener('click', () => {
+    const nowHidden = mobileMenu.classList.toggle('hidden');
+    iconOpen.classList.toggle('hidden', !nowHidden);
+    iconClose.classList.toggle('hidden', nowHidden);
+  });
+
+Aktive Seite: Auf jeder Seite bekommt der eigene Nav-Link
+  class="nav-link active" + style="color: var(--accent);"
+  und im Mobile-Menu ebenfalls style="color: var(--accent);"
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. HERO-SEKTION (dunkel)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Klasse .hero-dark:
+  - background: #07070C
+  - Subtiles Grid: linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px)
+    + linear-gradient(90deg, ...) background-size: 64px 64px
+  - ::before — Gradient Orb rechts oben: radial-gradient ellipse, rgba(108,92,247,0.18), transparent 60%
+  - ::after  — Gradient Orb links unten: radial-gradient ellipse, rgba(108,92,247,0.08), transparent 60%
+  - position: relative; overflow: hidden;
+
+Aufbau:
+  1. Status-Badge (pulsierender Punkt + Text, lila Glasmorphism-Pill)
+  2. H1 mit .display-xl, text-white, Keyword(s) in .g-text (Gradient)
+  3. Subtext: color rgba(255,255,255,0.52), max-w-lg, line-height 1.7
+  4. Button-Reihe: flex flex-wrap gap-3
+     - Primär: bg-accent + box-shadow + onmouseover translateY(-1px)
+     - Sekundär: rgba-Glas-Button, border rgba(255,255,255,0.15)
+  5. Trust-Bar: flex flex-wrap gap-8, Icons in --accent-l, Text rgba(255,255,255,0.35)
+
+Padding: pt-44 pb-36 (berücksichtigt fixe Nav von 68px)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7. BENTO-KARTEN-SEKTION (Referenzen / Portfolio)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Sektion: bg-canvas, py-24 px-6
+Grid: grid grid-cols-1 md:grid-cols-12 gap-5
+
+Drei-Karten-System:
+  Karte 1 (7 Spalten, oben rechts abgeschnitten):
+    - Hintergrund: #F7F8FC (helles Blau-Grau)
+    - clip-path: polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%)
+    - In .clip-wrap einwickeln (filter: drop-shadow für Polygon-Form)
+    - Icon oben links (dunkler Hintergrund), Badge oben rechts (.inner-badge)
+    - Titel: group-hover:text-accent transition-colors
+    - Tags: .tag-pill (lila Glasmorphism)
+    - Stats-Grid: 3 Spalten, border-t, Zahl + Label
+
+  Karte 2 (5 Spalten, oben links abgeschnitten, dunkel):
+    - Klasse: .card-dark (background: #111117)
+    - clip-path: polygon(28px 0, 100% 0, 100% 100%, 0 100%, 0 28px) direkt auf Element (kein clip-wrap)
+    - Icon: rgba(255,255,255,0.07) Hintergrund
+    - Text: title text-white, body rgba(255,255,255,0.72)
+    - Tags: rgba(108,92,247,0.15) Hintergrund, color #a78bfa
+    - Kein group-hover auf Titel (dunkel-Karten-Ausnahme)
+
+  Karte 3 (12 Spalten, volle Breite, unten links abgeschnitten):
+    - Kann Akzentfarbe als Hintergrund bekommen (var(--accent) = #6C5CF7)
+    - clip-path: polygon(0 0, 100% 0, 100% 100%, 28px 100%, 0 calc(100% - 28px))
+    - In .clip-wrap einwickeln
+    - Flex-Layout: flex-col md:flex-row md:items-center gap-8 (Icon | Text | Tags+Link)
+    - Auf Akzent-Hintergrund: alle Texte weiß, Tags rgba(255,255,255,0.18) + white border
+
+Clip-Path Regel:
+  - KEIN box-shadow auf clip-path Elementen — border läuft als Rechteck, nicht polygon-förmig
+  - Stattdessen: .clip-wrap (Elternelement) mit filter: drop-shadow() — folgt der Polygon-Form
+  - .clip-2 (Card 2) ist Ausnahme: direkt auf .card-dark, kein clip-wrap nötig (box-shadow funktioniert)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+8. PROZESS / STEP-KARTEN-SEKTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Sektion: bg-canvas, py-24 px-6
+Grid: grid-cols-1 md:grid-cols-3 gap-5
+
+Klasse .step-card:
+  - background: #fff
+  - border: 1px solid var(--border-light)
+  - box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04)
+  - position: relative; overflow: hidden;
+
+Ghost-Zahl (::before):
+  content: attr(data-step);  ← liest data-step="01" aus HTML-Attribut
+  font-size: 120px; font-weight: 900; color: rgba(0,0,0,0.03);
+  position: absolute; bottom: -16px; right: 12px;
+
+Oberer Strich (::after):
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: #0D0D16;  ← gleiche Farbe wie CTA-Sektion (nicht Lila)
+
+HTML-Attribut: data-step="01" / "02" / "03" — wird per CSS ::before angezeigt
+Kein Hover-Effekt auf diesen Karten.
+Staffelung: transition-delay: 0.06s / 0.12s / 0.18s
+
+Mobile: Animation komplett deaktiviert:
+  @media (max-width: 767px) {
+    .step-card.fade-in, .step-card.fade-in.visible {
+      opacity: 1 !important; transform: none !important; transition: none !important;
+    }
+  }
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+9. CTA-SEKTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hintergrund: #0D0D16 (leicht bläuliches Tiefschwarz, NICHT identisch mit Hero)
+Kein fade-in — Inhalt erscheint sofort ohne Animation
+Layout: max-w-5xl mx-auto text-center
+
+Aufbau:
+  1. .section-label in --accent-l (heller als normal, weil dunkler BG)
+  2. H2 mit .display-md, text-white
+  3. Subtext: rgba(255,255,255,0.45), max-w-xl mx-auto
+  4. Button-Gruppe: flex flex-col sm:flex-row gap-4 justify-center
+     - Primär: bg-accent + box-shadow + onmouseover translateY(-1px)
+     - Sekundär: border rgba(255,255,255,0.12) + bg rgba(255,255,255,0.05) + gleicher hover
+  5. Zeile mit Trust-Punkten: rgba(255,255,255,0.22), Punkte per &nbsp;·&nbsp; getrennt
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+10. FOOTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+background: #050508 (tiefstes Schwarz), py-12 px-6
+
+Zeile 1 (flex col/row, items-center justify-between gap-6):
+  Links:  Logo (font-bold, text-white) + Tagline (rgba(255,255,255,0.25))
+  Rechts: Nav-Links (rgba(255,255,255,0.3), hover:text-white)
+
+Zeile 2 (flex col/row, items-center justify-between, border-top rgba(255,255,255,0.06)):
+  Links:  © Copyright (rgba(255,255,255,0.18))
+  Rechts: E-Mail-Link (rgba(255,255,255,0.18), hover:text-white)
+
+Logo im Footer: Punkt in --accent-l (heller Lila, nicht --accent)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+11. WIEDERVERWENDBARE KOMPONENTEN (CSS-Klassen)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+.tag-pill
+  Für Technologie-Tags, auf hellem Hintergrund:
+  background: rgba(108,92,247,0.08); color: var(--accent);
+  border: 1px solid rgba(108,92,247,0.18);
+  padding: 4px 12px; border-radius: 999px; font-size: 0.73rem; font-weight: 500;
+
+  Auf dunklem Hintergrund (z.B. .card-dark):
+  background: rgba(108,92,247,0.15); color: #a78bfa; border: 1px solid rgba(108,92,247,0.25);
+
+  Auf Akzent-Hintergrund (z.B. lila Karte):
+  background: rgba(255,255,255,0.18); color: white; border: 1px solid rgba(255,255,255,0.28);
+
+.inner-badge
+  Kategorie-Badge oben rechts auf hellen Karten:
+  background: var(--canvas); color: #6b7280;
+  padding: 3px 10px; border-radius: 999px;
+  border: 1px solid var(--border-light);
+  font-size: 0.73rem; font-weight: 500;
+
+Primär-Button (accent):
+  bg-accent text-white font-semibold px-7 py-3.5 rounded-xl
+  box-shadow: 0 4px 20px rgba(108,92,247,0.45)
+  hover: onmouseover translateY(-1px) + stärkerer box-shadow
+
+Sekundär-Button (Ghost auf dunkel):
+  border: 1px solid rgba(255,255,255,0.15)
+  background: rgba(255,255,255,0.06)
+  hover: background rgba(255,255,255,0.1) + translateY(-1px)
+
+Nav CTA-Button (kleiner):
+  bg-accent text-white text-sm font-semibold px-4 py-2 rounded-lg
+  hover:bg-accent-d
+  box-shadow: 0 2px 12px rgba(108,92,247,0.3)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+12. SEITEN-STRUKTUR (Reihenfolge der Sektionen)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+index.html (Startseite):
+  NAV → HERO (dark) → BENTO/REFERENZEN (canvas) → PROZESS (canvas) → CTA (dark) → FOOTER (darkest)
+
+Hintergrund-Rhythmus beim Scrollen:
+  dark → canvas → canvas → dark → darkest
+  → Hell-Dunkel-Wechsel hält die Seite optisch lebendig.
+
+referenzen.html:
+  NAV → HEADER (canvas/weiß) → PROJEKT 1 (weiß) → PROJEKT 2 (canvas) → PROJEKT 3 (weiß) → CTA (dark) → FOOTER
+
+kontakt.html / impressum.html / datenschutz.html:
+  NAV → CONTENT-SEKTION (canvas mit weißem Karten-Container) → FOOTER
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+13. SEITENÜBERGREIFENDE REGELN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+- Seitenbreite immer max-w-6xl mx-auto
+- Sektions-Padding: py-24 px-6 (Standard), py-12 (Footer)
+- Alle Seiten: <body class="bg-canvas text-gray-900 antialiased" style="overflow-x:hidden;">
+- Content-Seiten (Impressum/Datenschutz): weißer Karten-Container mit rounded-3xl p-8 md:p-12
+  style="background:white; border:1px solid rgba(0,0,0,0.07); box-shadow:0 1px 4px rgba(0,0,0,0.05);"
+- pt-44 auf dem ersten Inhalts-Element unter der fixen Nav (kompensiert h-[68px] + Luft)
+- CTA-Sektion auf JEDER Unterseite einbauen (immer identisch, kein fade-in)
+- Footer auf JEDER Seite identisch
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+14. KOMPLETTES TAILWIND CONFIG SNIPPET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          accent:     '#6C5CF7',
+          'accent-d': '#5A4BE0',
+          'accent-l': '#8B7FFF',
+          canvas:     '#EDEEF2',
+          dark:       '#07070C',
+          'dark-2':   '#111117',
+        },
+        fontFamily: {
+          sans: ['-apple-system','BlinkMacSystemFont','Segoe UI','system-ui','sans-serif'],
+        },
+      }
+    }
+  }
+</script>
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+15. KOMPLETTER :root CSS-BLOCK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+<style>
+  :root {
+    --accent:       #6C5CF7;
+    --accent-d:     #5A4BE0;
+    --accent-l:     #8B7FFF;
+    --canvas:       #EDEEF2;
+    --dark:         #07070C;
+    --dark-2:       #111117;
+    --border-light: rgba(0,0,0,0.06);
+    --border-dark:  rgba(255,255,255,0.08);
+    --tracking-display: -0.045em;
+    --tracking-heading:  -0.025em;
+    --tracking-label:     0.14em;
+  }
+
+  .fade-in {
+    opacity: 0; transform: translateY(32px);
+    transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+                transform 0.8s cubic-bezier(0.16,1,0.3,1);
+  }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  #nav { transition: background 0.35s, border-color 0.35s, box-shadow 0.35s; }
+  #nav .nav-link { font-size: 0.875rem; font-weight: 500; color: #374151; transition: color 0.2s; }
+  #nav .nav-link:hover, #nav .nav-link.active { color: var(--accent); }
+
+  .g-text {
+    background: linear-gradient(125deg, #a78bfa 0%, #c4b5fd 55%, #ddd6fe 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .g-text-light {
+    background: linear-gradient(125deg, var(--accent) 0%, var(--accent-l) 60%, #a78bfa 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+
+  .hero-dark {
+    background-color: var(--dark);
+    background-image:
+      linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+    background-size: 64px 64px;
+    position: relative; overflow: hidden;
+  }
+  .hero-dark::before {
+    content: ''; position: absolute; pointer-events: none;
+    top: -20%; right: -10%; width: 70%; height: 100%;
+    background: radial-gradient(ellipse at 70% 30%, rgba(108,92,247,0.18) 0%, transparent 60%);
+  }
+  .hero-dark::after {
+    content: ''; position: absolute; pointer-events: none;
+    bottom: -20%; left: -5%; width: 50%; height: 80%;
+    background: radial-gradient(ellipse at 30% 70%, rgba(108,92,247,0.08) 0%, transparent 60%);
+  }
+
+  .display-xl { font-size: clamp(48px, 6.8vw, 96px); letter-spacing: var(--tracking-display); line-height: 0.95; font-weight: 800; }
+  .display-md { font-size: clamp(32px, 4vw, 56px);   letter-spacing: var(--tracking-heading); line-height: 1.1;  font-weight: 800; }
+  .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--accent); }
+
+  .card-white {
+    background: #fff; border: 1px solid var(--border-light);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9);
+  }
+  .card-dark {
+    background: var(--dark-2); border: 1px solid rgba(255,255,255,0.07);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .clip-wrap { filter: drop-shadow(0 2px 8px rgba(0,0,0,0.07)); }
+
+  .clip-1 { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%); }
+  .clip-2 { clip-path: polygon(28px 0, 100% 0, 100% 100%, 0 100%, 0 28px); }
+  .clip-3 { clip-path: polygon(0 0, 100% 0, 100% 100%, 28px 100%, 0 calc(100% - 28px)); }
+
+  .step-card {
+    background: #fff; border: 1px solid var(--border-light);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
+    position: relative; overflow: hidden;
+  }
+  .step-card::before {
+    content: attr(data-step);
+    position: absolute; bottom: -16px; right: 12px;
+    font-size: 120px; font-weight: 900; line-height: 1;
+    color: rgba(0,0,0,0.03); user-select: none; pointer-events: none; letter-spacing: -0.05em;
+  }
+  .step-card::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: #0D0D16;
+  }
+
+  .tag-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border-radius: 999px; font-size: 0.73rem; font-weight: 500;
+    background: rgba(108,92,247,0.08); color: var(--accent); border: 1px solid rgba(108,92,247,0.18);
+  }
+  .inner-badge {
+    background: var(--canvas); color: #6b7280; font-size: 0.73rem; font-weight: 500;
+    padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border-light);
+  }
+  ::selection { background: rgba(108,92,247,0.15); }
+
+  @media (max-width: 767px) {
+    .fade-in { transform: translateY(14px); }
+    .step-card.fade-in, .step-card.fade-in.visible {
+      opacity: 1 !important; transform: none !important; transition: none !important;
+    }
+  }
+</style>
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+16. WIE MAN DIESEN PROMPT BENUTZT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Schicke diesen Text an Claude/ChatGPT mit folgender Ergänzung:
+
+  "Erstelle eine neue Website für [BRANCHE/KUNDE] mit diesem Design-System.
+   Behalte alle CSS-Klassen, Tokens, Animationen und die Nav-Struktur exakt bei.
+   Ändere nur: Farben (optional), Texte, Icons und die Anzahl der Sektionen.
+   Pflichtseiten: index.html + [weitere nach Bedarf]
+   Sprache: [DE/EN]
+   Besonderheiten: [z.B. andere Akzentfarbe, andere Sektionen]"
+
+Farben anpassen (optional):
+  Ersetze alle Vorkommen von #6C5CF7 / #5A4BE0 / #8B7FFF durch die neue Akzentfarbe.
+  Canvas (#EDEEF2) und Dark (#07070C / #111117) können bleiben oder ebenfalls angepasst werden.
+
+Was NICHT geändert werden sollte (ohne Grund):
+  - display-xl / display-md Klassen und ihre Werte
+  - letter-spacing Tokens
+  - Scroll-Animation (cubic-bezier, threshold, rootMargin)
+  - Nav-Höhe h-[68px]
+  - clip-path Polygone (28px Ecke)
+  - Hover-Prinzip: NUR Textfarbe, kein translateY auf Karten
