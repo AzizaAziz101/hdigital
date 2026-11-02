@@ -73,7 +73,8 @@
       display: flex; align-items: center; gap: 16px;
     }
     .label b { font-weight: 700; color: var(--t1); }
-    .label::after { content: ''; height: 1px; width: 72px; background: var(--line-2); }
+    .label { white-space: nowrap; }
+    .label::after { content: ''; height: 1px; flex: 0 1 72px; min-width: 0; background: var(--line-2); }
 
     .display {
       font-weight: 700; text-transform: uppercase; letter-spacing: .012em; line-height: .94;
@@ -99,6 +100,7 @@
     .btn-red:hover { background: var(--red-hover); }
     .btn-line { border: 1px solid var(--line-2); color: var(--t1); }
     .btn-line:hover { background: #fff; border-color: #fff; color: #000; }
+    @media (max-width: 480px) { .btn { padding: 0 20px; gap: 10px; letter-spacing: .14em; } }
 
     .ulink {
       display: inline-flex; align-items: center; gap: 12px; font-weight: 600; font-size: 12.04px; letter-spacing: .18em; text-transform: uppercase; padding-bottom: 8px;
@@ -184,7 +186,7 @@
     .fact .num.hot small { color: var(--red-hi); opacity: .7; }
     .fact h3 { margin-top: 18px; font-size: 12.9px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
     .fact p:not(.num) { margin-top: 8px; color: var(--t3); font-size: 14.62px; max-width: 28ch; }
-    @media (min-width: 900px) {
+    @media (min-width: 760px) {
       .facts .grid { grid-template-columns: repeat(3, 1fr); }
       .fact { border-top: 0; border-left: 1px solid var(--line); padding-inline: clamp(24px, 3vw, 48px); }
       .fact:first-child { border-left: 0; padding-left: 0; }
@@ -195,7 +197,7 @@
     /* ── Work (Karten mit abgeschrägter Ecke) ───────── */
     .section { padding-block: var(--sec); }
     .sec-head { display: grid; gap: 32px; margin-bottom: clamp(56px, 8vw, 112px); }
-    .cards { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    .cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
     .card { --cut: 32px; position: relative; display: flex; background: var(--line-2);
       clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%);
       transition: background-color .45s var(--ease); }
@@ -206,12 +208,13 @@
     .card:hover { background: rgba(255,255,255,.6); }
     .card:hover .card-in { background: var(--bg-2); }
     .work-meta { display: flex; justify-content: space-between; font-size: 11.18px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--t3); }
-    .work-meta b { color: var(--t1); font-weight: 700; }
+    .work-meta { gap: 16px; } .work-meta b { color: var(--t1); font-weight: 700; white-space: nowrap; }
     .card h3 { margin-top: clamp(40px, 6vw, 88px); font-size: clamp(20.64px, 2.15vw, 30.96px); font-weight: 700; text-transform: uppercase; letter-spacing: .03em; line-height: 1.08; overflow-wrap: break-word; hyphens: auto; }
     .card p { margin-top: 20px; color: var(--t2); max-width: 46ch; }
-    .stats { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 0 40px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); }
-    .stats strong { display: block; font-size: 29.24px; font-weight: 700; letter-spacing: 0; line-height: 1; }
+    .stats { display: grid; grid-template-columns: repeat(3, minmax(0, auto)); justify-content: start; gap: 0 clamp(16px, 4vw, 40px); margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); }
+    .stats strong { display: block; font-size: clamp(22px, 6vw, 29.24px); font-weight: 700; letter-spacing: 0; line-height: 1; }
     .stats span { display: block; margin-top: 10px; font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--t3); }
+    @media (max-width: 480px) { .stats { display: flex; flex-wrap: wrap; gap: 20px 28px; } .stats span { letter-spacing: .12em; } }
     .note { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 11.18px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--t3); }
     .card .note { max-width: none; }
     .foot { margin-top: auto; padding-top: 40px; }
@@ -382,7 +385,7 @@
           <article class="card c-7 rv">
             <div class="card-in">
               <div class="work-meta"><b>01</b><span>Metallbau</span></div>
-              <h3>Metallbauunternehmen</h3>
+              <h3>Metallbau&shy;unternehmen</h3>
               <p>Firmenwebsite für einen regionalen Metallbaubetrieb. Auf allen Geräten, klar strukturiert, schnell geladen – so seriös wie die Arbeit des Unternehmens selbst.</p>
               <div class="stats">
                 <div><strong>100%</strong><span>Mobiloptimiert</span></div>
@@ -409,7 +412,7 @@
             <div class="card-in">
               <div class="work-meta"><b>03</b><span>Bildung &amp; Plattform</span></div>
               <div class="l">
-                <h3>Berufsorientierungswebsite</h3>
+                <h3>Berufs&shy;orientierungs&shy;website</h3>
                 <p>Übersichtliche Plattform für Jugendliche und Berufseinsteiger. Strukturiert, intuitiv, ohne Ablenkung – damit Besucher sofort finden, was sie suchen.</p>
               </div>
               <div class="r">
