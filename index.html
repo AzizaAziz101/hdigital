@@ -181,7 +181,7 @@
     .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 36px; margin-top: clamp(32px, 4vw, 48px); }
 
     /* ── Facts ──────────────────────────────────────── */
-    .facts { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--bg); }
+    .facts { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
     .facts .grid { display: grid; grid-template-columns: 1fr; }
     .fact { padding: clamp(28px, 3.4vw, 44px) 0; border-top: 1px solid var(--line); }
     .fact:first-child { border-top: 0; }
@@ -235,7 +235,7 @@
     }
 
     /* ── Process ────────────────────────────────────── */
-    .process { --pp: clamp(64px, 8vw, 96px); padding-top: var(--pp); background: var(--bg-1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .process { --pp: clamp(64px, 8vw, 96px); padding-top: var(--pp); background: rgba(255,255,255,.025); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
     .process-grid { display: grid; gap: clamp(48px, 7vw, 96px); }
     .steps { position: relative; }
     .steps::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--line-2); }
@@ -281,6 +281,25 @@
       .f-top, .f-bot { flex-direction: row; justify-content: space-between; align-items: flex-start; }
       .f-bot { align-items: center; }
     }
+
+
+    /* ── Hintergrund-Schein (Radialverlauf, fest hinter allen Inhalten) ── */
+    :root { --glow-a: #231113; --glow-b: #0a0a0b; --glow-c: #0e0809; }  /* Original: #211320 / #0b0f14 / #100a0e */
+    body::before { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background: radial-gradient(circle at center, var(--glow-a), var(--glow-b), var(--glow-c)); }
+
+    /* ── Karten-Button ──────────────────────────────── */
+    .cbtn { display: inline-flex; align-items: center; background: #0e0e0e; color: var(--red-hi);
+      border: 1px solid rgba(255,255,255,.25); border-radius: 12px; padding: 14px 22px;
+      font-weight: 600; font-size: 13px; line-height: 1.4; letter-spacing: .18em; text-transform: uppercase;
+      transition: border-color .3s var(--ease); }
+    .cbtn:hover, .card:hover .cbtn { border-color: rgba(255,255,255,.5); }
+    .cbtn .t { display: inline-flex; align-items: center; gap: 12px; animation: hop 8s ease-in-out infinite; }
+    .cbtn .arr { transition: transform .35s var(--ease); }
+    .cbtn:hover .arr, .card:hover .cbtn .arr { transform: translateX(4px); }
+    .card:nth-of-type(2) .cbtn .t { animation-delay: -2.7s; }
+    .card:nth-of-type(3) .cbtn .t { animation-delay: -5.4s; }
+    @keyframes hop { 0%, 95.6% { transform: none; } 97.8% { transform: translateY(-5px); } 100% { transform: none; } }
 
     /* ── Reduced motion ─────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
@@ -397,7 +416,7 @@
                 <div><strong>&lt;2s</strong><span>Ladezeit</span></div>
                 <div><strong>SEO</strong><span>Optimiert</span></div>
               </div>
-              <div class="foot"><a href="referenzen.html#metallbau" class="ulink stretch">Vollständiges Projekt <span class="arr" aria-hidden="true">→</span></a></div>
+              <div class="foot"><a href="referenzen.html#metallbau" class="cbtn stretch"><span class="t">Vollständiges Projekt <span class="arr" aria-hidden="true">→</span></span></a></div>
             </div>
           </article>
 
@@ -408,7 +427,7 @@
               <h3>Anwaltskanzlei</h3>
               <p>Website, die Vertrauen erzeugt – noch bevor ein Wort gelesen wird. Saubere Typografie, klare Hierarchie, professionelle Außenwirkung.</p>
               <p class="note">Erstkontakt-Konvertierung</p>
-              <div class="foot"><a href="referenzen.html#kanzlei" class="ulink stretch">Details <span class="arr" aria-hidden="true">→</span></a></div>
+              <div class="foot"><a href="referenzen.html#kanzlei" class="cbtn stretch"><span class="t">Details <span class="arr" aria-hidden="true">→</span></span></a></div>
             </div>
           </article>
 
@@ -421,7 +440,7 @@
                 <p>Übersichtliche Plattform für Jugendliche und Berufseinsteiger. Strukturiert, intuitiv, ohne Ablenkung – damit Besucher sofort finden, was sie suchen.</p>
               </div>
               <div class="r">
-                <div class="foot"><a href="referenzen.html#berufsorientierung" class="ulink stretch">Vollständiges Projekt <span class="arr" aria-hidden="true">→</span></a></div>
+                <div class="foot"><a href="referenzen.html#berufsorientierung" class="cbtn stretch"><span class="t">Vollständiges Projekt <span class="arr" aria-hidden="true">→</span></span></a></div>
               </div>
             </div>
           </article>

@@ -277,6 +277,25 @@
     .prose .src a { color: var(--t2); }
     .stand { margin-top: 16px; font-size: 11.18px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--t3); }
 
+
+    /* ── Hintergrund-Schein (Radialverlauf, fest hinter allen Inhalten) ── */
+    :root { --glow-a: #231113; --glow-b: #0a0a0b; --glow-c: #0e0809; }  /* Original: #211320 / #0b0f14 / #100a0e */
+    body::before { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background: radial-gradient(circle at center, var(--glow-a), var(--glow-b), var(--glow-c)); }
+
+    /* ── Karten-Button ──────────────────────────────── */
+    .cbtn { display: inline-flex; align-items: center; background: #0e0e0e; color: var(--red-hi);
+      border: 1px solid rgba(255,255,255,.25); border-radius: 12px; padding: 14px 22px;
+      font-weight: 600; font-size: 13px; line-height: 1.4; letter-spacing: .18em; text-transform: uppercase;
+      transition: border-color .3s var(--ease); }
+    .cbtn:hover, .card:hover .cbtn { border-color: rgba(255,255,255,.5); }
+    .cbtn .t { display: inline-flex; align-items: center; gap: 12px; animation: hop 8s ease-in-out infinite; }
+    .cbtn .arr { transition: transform .35s var(--ease); }
+    .cbtn:hover .arr, .card:hover .cbtn .arr { transform: translateX(4px); }
+    .card:nth-of-type(2) .cbtn .t { animation-delay: -2.7s; }
+    .card:nth-of-type(3) .cbtn .t { animation-delay: -5.4s; }
+    @keyframes hop { 0%, 95.6% { transform: none; } 97.8% { transform: translateY(-5px); } 100% { transform: none; } }
+
     /* ── Reduced motion ─────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition-duration: .01ms !important; transition-delay: 0s !important; animation: none !important; }
