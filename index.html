@@ -6,6 +6,11 @@
   <title>hoeft.digital – Webdesign, das wirkt</title>
   <meta name="description" content="Professionelles Webdesign für Unternehmen, die online überzeugen wollen." />
   <meta name="theme-color" content="#050505" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="de_DE" />
+  <meta property="og:title" content="hoeft.digital – Webdesign, das wirkt" />
+  <meta property="og:description" content="Professionelles Webdesign für Unternehmen, die online überzeugen wollen." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 
   <link rel="preload" href="fonts/barlow-700.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="fonts/barlow-400.woff2" as="font" type="font/woff2" crossorigin />
@@ -183,8 +188,8 @@
     .fact .num { font-weight: 700; letter-spacing: -.005em; line-height: .88; font-size: clamp(44px, 11vw, 76px); font-variant-numeric: tabular-nums; white-space: nowrap; }
     .fact .num small { font-size: .3em; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--t3); margin-left: .5em; }
     .fact .num.hot { color: var(--red-hi); }
-    .fact .num.hot small { color: var(--red-hi); opacity: .7; }
-    .fact h3 { margin-top: 18px; font-size: 12.9px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
+    .fact .num.hot small { color: var(--red-hi); }
+    .fact h2 { margin-top: 18px; font-size: 12.9px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
     .fact p:not(.num) { margin-top: 8px; color: var(--t3); font-size: 14.62px; max-width: 28ch; }
     @media (min-width: 760px) {
       .facts .grid { grid-template-columns: repeat(3, 1fr); }
@@ -247,7 +252,7 @@
     /* ── Gedanken (kurze Essays) ────────────────────── */
     .essay { padding: clamp(72px, 9vw, 128px) 0 0; }
     .essay .wrap { display: grid; gap: 24px; }
-    .essay h3 { font-size: clamp(22.36px, 2.75vw, 39.56px); font-weight: 700; text-transform: uppercase; letter-spacing: .025em; line-height: 1.05; }
+    .essay h2 { font-size: clamp(22.36px, 2.75vw, 39.56px); font-weight: 700; text-transform: uppercase; letter-spacing: .025em; line-height: 1.05; }
     .essay p { margin-top: 20px; font-size: clamp(16.34px, 1.38vw, 19.78px); line-height: 1.55; color: var(--t2); max-width: 50ch; }
     .emo { font-style: normal; margin-left: .3em; font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif; letter-spacing: 0; }
     #referenzen { padding-bottom: 0; }
@@ -326,11 +331,11 @@
           <span class="ln" style="--d:.21s"><span>und <span class="dim">verkaufen.</span></span></span>
         </h1>
 
-        <p class="hero-sub rv" style="--d:.35s">
+        <p class="hero-sub rv" style="--d:.12s">
           Ich baue professionelle Websites für Unternehmen, die online einen starken ersten Eindruck hinterlassen wollen – schnell, sauber, ohne Kompromisse.
         </p>
 
-        <div class="hero-cta rv" style="--d:.42s">
+        <div class="hero-cta rv" style="--d:.2s">
           <a href="kontakt.html" class="btn btn-red">Kostenlos anfragen <span class="arr" aria-hidden="true">→</span></a>
           <a href="referenzen.html" class="ulink">Referenzen ansehen <span class="arr" aria-hidden="true">→</span></a>
         </div>
@@ -344,17 +349,17 @@
         <div class="grid">
           <div class="fact rv">
             <p class="num hot"><span data-to="7">7</span>–<span data-to="14">14</span><small>Tage</small></p>
-            <h3>Bis zur Auslieferung</h3>
+            <h2>Bis zur Auslieferung</h2>
             <p>Vom Briefing zur fertigen Website.</p>
           </div>
           <div class="fact rv" style="--d:.1s">
             <p class="num">0<small>€</small></p>
-            <h3>Vorauszahlung</h3>
+            <h2>Vorauszahlung</h2>
             <p>Bezahlung erst, wenn Sie überzeugt sind.</p>
           </div>
           <div class="fact rv" style="--d:.2s">
             <p class="num"><span data-to="100">100</span><small>%</small></p>
-            <h3>Mobiloptimiert</h3>
+            <h2>Mobiloptimiert</h2>
             <p>Auf jedem Gerät schnell und sauber.</p>
           </div>
         </div>
@@ -366,7 +371,7 @@
       <div class="wrap">
         <p class="label rv">Gedanke 01 <span class="emo" aria-hidden="true">✨</span></p>
         <div class="essay-body rv" style="--d:.08s">
-          <h3 id="g1">Der erste Eindruck bleibt.</h3>
+          <h2 id="g1">Der erste Eindruck bleibt.</h2>
           <p>Bevor ein Kunde Ihr Angebot kennt, kennt er Ihre Website. In kürzester Zeit entscheidet sich, ob er bleibt oder weiterzieht. Das ist keine Frage des Zufalls, sondern der Ausstrahlung: Wer klar, ruhig und hochwertig auftritt, wird auch so wahrgenommen. Ihre Website ist deshalb mehr als ein Aushängeschild – sie ist das Bild, das Ihre Kunden von Ihnen im Kopf behalten.</p>
         </div>
       </div>
@@ -433,7 +438,7 @@
       <div class="wrap">
         <p class="label rv">Gedanke 02 <span class="emo" aria-hidden="true">💡</span></p>
         <div class="essay-body rv" style="--d:.08s">
-          <h3 id="g2">Klarheit kommt zuerst.</h3>
+          <h2 id="g2">Klarheit kommt zuerst.</h2>
           <p>Jedes gute Ergebnis beginnt mit einem klaren Bild im Kopf. Darum steht am Anfang kein Layout, sondern ein Gespräch: Wohin soll Ihr Unternehmen wachsen, und wen möchten Sie erreichen? Wer sein Ziel genau sieht, geht den Weg dorthin leichter.</p>
         </div>
       </div>
@@ -486,7 +491,7 @@
       <div class="wrap">
         <p class="label rv">Gedanke 03 <span class="emo" aria-hidden="true">🚀</span></p>
         <div class="essay-body rv" style="--d:.08s">
-          <h3 id="g3">Was Sie beachten, wächst.</h3>
+          <h2 id="g3">Was Sie beachten, wächst.</h2>
           <p>Richten Sie den Blick auf das, was Ihr Unternehmen besonders macht: Ihre Erfahrung, Ihre Arbeit, Ihre Kunden. Zeigen Sie es mit Stolz und in Ruhe. Der erste Schritt ist klein – eine Nachricht. Alles Weitere entsteht daraus.</p>
         </div>
       </div>
@@ -564,7 +569,8 @@
 
       // Staubpartikel im Lichtkegel (Canvas, nur sichtbar solange der Hero im Bild ist)
       var cv = document.getElementById('dust'), hero = document.getElementById('hero-section');
-      if (cv && cv.getContext) {
+      function initDust() {
+        if (!(cv && cv.getContext)) return;
         var ctx = cv.getContext('2d'), W = 0, H = 0, P = [], dRaf = 0, dLast = 0, heroVisible = true;
         function dSize() {
           var r = hero.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
@@ -620,6 +626,7 @@
           if (reduce) dFrame(performance.now(), true);
         });
       }
+      addEventListener('load', function () { setTimeout(initDust, 400); });
 
       // Nav
       var nav = document.getElementById('nav'), ticking = false;
