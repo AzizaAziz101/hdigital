@@ -255,6 +255,8 @@
     @media (max-width: 480px) { .stats { display: flex; flex-wrap: wrap; gap: 20px 28px; } .stats span { letter-spacing: .12em; } }
     .note { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); font-size: var(--fs-label); font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--t3); }
     .card .note { max-width: none; }
+    .card .stat-cap { margin-top: 14px; max-width: none; font-size: var(--fs-label); font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--t3); }
+    .c-5 .stats { column-gap: 24px; }
     .foot { margin-top: auto; padding-top: 40px; }
     .stretch::before { content: ''; position: absolute; inset: 0; z-index: 2; }
     @media (min-width: 900px) {
@@ -441,14 +443,15 @@
           <!-- 01 Metallbau -->
           <article class="card c-7 rv">
             <div class="card-in">
-              <div class="work-meta"><b>01</b><span>Metallbau</span></div>
+              <div class="work-meta"><b>01</b><span>Metallbau · Demoprojekt</span></div>
               <h3>Metallbau&shy;unternehmen</h3>
-              <p>Firmenwebsite für einen regionalen Metallbaubetrieb. Auf allen Geräten, klar strukturiert, schnell geladen – so seriös wie die Arbeit des Unternehmens selbst.</p>
+              <p>Konzeptprojekt: Firmenwebsite für einen fiktiven regionalen Metallbaubetrieb. Auf allen Geräten, klar strukturiert, schnell geladen – so seriös wie die Arbeit des Unternehmens selbst.</p>
               <div class="stats">
-                <div><strong>100%</strong><span>Mobiloptimiert</span></div>
-                <div><strong>&lt;2s</strong><span>Ladezeit</span></div>
-                <div><strong>SEO</strong><span>Optimiert</span></div>
+                <div><strong>100</strong><span>Barrierefrei</span></div>
+                <div><strong>100</strong><span>Best Practices</span></div>
+                <div><strong>100</strong><span>SEO</span></div>
               </div>
+              <p class="stat-cap">Lighthouse · live gemessen · Nov. 2026</p>
               <div class="foot"><a href="referenzen.html#metallbau" class="cbtn stretch"><span class="t">Details <span class="arr" aria-hidden="true">→</span></span></a></div>
             </div>
           </article>
@@ -456,10 +459,15 @@
           <!-- 02 Kanzlei -->
           <article class="card c-5 rv" style="--d:.08s">
             <div class="card-in">
-              <div class="work-meta"><b>02</b><span>Recht &amp; Beratung</span></div>
+              <div class="work-meta"><b>02</b><span>Recht &amp; Beratung · Demoprojekt</span></div>
               <h3>Anwaltskanzlei</h3>
-              <p>Website, die Vertrauen erzeugt – noch bevor ein Wort gelesen wird. Saubere Typografie, klare Hierarchie, professionelle Außenwirkung.</p>
-              <p class="note">Erstkontakt-Konvertierung</p>
+              <p>Konzeptprojekt: Website einer fiktiven Anwaltskanzlei, die Vertrauen erzeugt – noch bevor ein Wort gelesen wird. Saubere Typografie, klare Hierarchie, professionelle Außenwirkung.</p>
+              <div class="stats">
+                <div><strong>100</strong><span>Barrierefrei</span></div>
+                <div><strong>100</strong><span>Best Practices</span></div>
+                <div><strong>100</strong><span>SEO</span></div>
+              </div>
+              <p class="stat-cap">Lighthouse · live gemessen · Nov. 2026</p>
               <div class="foot"><a href="referenzen.html#kanzlei" class="cbtn stretch"><span class="t">Details <span class="arr" aria-hidden="true">→</span></span></a></div>
             </div>
           </article>

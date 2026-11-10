@@ -181,6 +181,8 @@
     @media (max-width: 480px) { .stats { display: flex; flex-wrap: wrap; gap: 20px 28px; } .stats span { letter-spacing: .12em; } }
     .note { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); font-size: var(--fs-label); font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--t3); }
     .card .note { max-width: none; }
+    .card .stat-cap { margin-top: 14px; max-width: none; font-size: var(--fs-label); font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--t3); }
+    .c-5 .stats { column-gap: 24px; }
     .foot { margin-top: auto; padding-top: 40px; }
     .stretch::before { content: ''; position: absolute; inset: 0; z-index: 2; }
     @media (min-width: 900px) {
@@ -268,6 +270,12 @@
       .c-info { grid-column: 1 / 6; }
       .c-card { grid-column: 7 / 13; }
     }
+
+    /* ── Warum ich (Kontaktseite) ───────────────────── */
+    .why { margin-bottom: clamp(32px, 4vw, 48px); }
+    .why h2 { margin-top: 20px; font-size: var(--fs-h3); font-weight: 700; text-transform: uppercase; letter-spacing: .025em; line-height: 1.1; }
+    .why p:not(.label):not(.sig) { margin-top: 16px; max-width: 46ch; color: var(--t2); }
+    .why .sig { margin-top: 20px; font-size: var(--fs-ui); font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
 
     /* ── Rechtstexte ────────────────────────────────── */
     .prose { max-width: 780px; }
